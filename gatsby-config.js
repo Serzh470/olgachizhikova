@@ -1,11 +1,19 @@
+const path = require('path');
+
 module.exports = {
-  siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
-  },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-plugin-svgr`,
+      options: {
+        svgoConfig: {
+          plugins: {
+            removeViewBox: false,
+          },
+        },
+      },
+    },
+    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -18,17 +26,27 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `Yoga with Olga Chizhikova`,
+        short_name: `yoga&Olga`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#8bd8ed`,
+        theme_color: `#8bd8ed`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `static/favicon.png`,
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          '@components': path.resolve(__dirname, 'src/components'),
+          '@common': path.resolve(__dirname, 'src/components/common'),
+          '@images': path.resolve(__dirname, 'src/images'),
+          '@sections': path.resolve(__dirname, 'src/components/sections'),
+          '@styles': path.resolve(__dirname, 'src/styles/'),
+          '@static': path.resolve(__dirname, 'static/'),
+        },
+      },
+    },
   ],
-}
+};
