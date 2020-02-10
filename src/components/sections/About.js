@@ -25,7 +25,8 @@ const About = () => (
             <div>
               <h2>About me</h2>
               <p>
-                Short story about me...
+                This page is under development, but
+                here will be short story about me soon...
               </p>
             </div>
             <Art>
