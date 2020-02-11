@@ -3,6 +3,7 @@ import AnchorLink from "react-anchor-link-smooth-scroll";
 import Scrollspy from "react-scrollspy";
 import { FormattedMessage } from "gatsby-plugin-intl";
 
+import Language from "./Language";
 import { Container } from "@components/global";
 import {
   Nav,
@@ -72,6 +73,7 @@ class Navbar extends Component {
           </Mobile>
 
           <Mobile hide>{this.getNavList({})}</Mobile>
+          <Language />
         </StyledContainer>
         <Mobile>
           {mobileMenuOpen && (
