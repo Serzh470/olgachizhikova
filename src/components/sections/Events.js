@@ -17,6 +17,7 @@ const Events = () => (
               frontmatter {
                 title
                 date(formatString: "DD MMMM YYYY")
+                hidden
               }
             }
           }
@@ -24,19 +25,22 @@ const Events = () => (
       }
     `}
     render={(data) => {
-      const { edges:posts } = data.allMarkdownRemark;
+      const { edges:events } = data.allMarkdownRemark;
+      const rendered_events = events
+        .filter((post) => !post.node.frontmatter.hidden)
+        .map(({ node:post }) => {
+          return (
+            <EventItem title={`${post.frontmatter.title},  ${post.frontmatter.date}`} key={post.id}>
+              {post.excerpt}
+            </EventItem>
+          );
+      });
+
       return (
         <Section id="events">
           <Container>
             <h1 style={{ marginBottom: 40 }}>Upcoming Events</h1>
-            {posts
-              .map(({ node: post }) => {
-                return (
-                  <EventItem title={`${post.frontmatter.title},  ${post.frontmatter.date}`} key={post.id}>
-                    {post.excerpt}
-                  </EventItem>
-                );
-            })}
+            {rendered_events.length ? rendered_events : <div>No upcoming events...</div>}
           </Container>
         </Section>
       )}

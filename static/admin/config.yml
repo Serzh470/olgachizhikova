@@ -12,4 +12,4 @@ collections:
     fields:
       - { name: date, label: Date, widget: date }
       - { name: title, label: Title }
-      - { name: body, label: Body, widget: markdown }
+      - { name: hidden, label: Hidden, widget: hidden, default: false }

@@ -49,8 +49,8 @@ module.exports = {
         name: `Yoga with Olga Chizhikova`,
         short_name: `Yoga&Olga`,
         start_url: `/`,
-        background_color: `#8bd8ed`,
-        theme_color: `#8bd8ed`,
+        background_color: `#ffffff`,
+        theme_color: `#ffffff`,
         display: `minimal-ui`,
         icon: `static/favicon.svg`,
         icons: [
