@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Container } from '@components/global';
+import styled from "styled-components";
+import { Container } from "@components/global";
 
 
 export const Nav = styled.nav`
@@ -10,6 +10,7 @@ export const Nav = styled.nav`
   width: 100%;
   top: 0;
   z-index: 1000;
+  box-shadow: -5px 5px 10px 0px #cccccc;
 `;
 
 export const StyledContainer = styled(Container)`
@@ -60,22 +61,22 @@ export const NavItem = styled.li`
 
 export const MobileMenu = styled.div`
   width: 100%;
-  background: ${props => props.theme.color.primary};
+  background: ${(props) => props.theme.color.primary};
 `;
 
 export const Brand = styled.div`
-  font-family: ${props => props.theme.font.primary};
-  ${props => props.theme.font_size.large};
+  font-family: ${(props) => props.theme.font.primary};
+  ${(props) => props.theme.font_size.larger};
 `;
 
 export const Mobile = styled.div`
   display: none;
 
-  @media (max-width: ${props => props.theme.screen.md}) {
+  @media (max-width: ${(props) => props.theme.screen.md}) {
     display: block;
   }
 
-  ${props =>
+  ${(props) =>
     props.hide &&
     `
     display: block;

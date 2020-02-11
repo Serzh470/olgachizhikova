@@ -13,3 +13,4 @@ collections:
       - { name: date, label: Date, widget: date }
       - { name: title, label: Title }
       - { name: hidden, label: Hidden, widget: hidden, default: false }
+      - { name: body, label: Body, widget: markdown }

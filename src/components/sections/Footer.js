@@ -1,10 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { Container } from '@components/global';
-import ExternalLink from '@common/ExternalLink';
+import { Container } from "@components/global";
+import ExternalLink from "@common/ExternalLink";
+import { injectIntl } from "gatsby-plugin-intl";
 
-import InstagramIcon from '@static/icons/instagram.svg';
+import InstagramIcon from "@static/icons/instagram.svg";
 
 const SOCIAL = [
   {
@@ -13,22 +14,24 @@ const SOCIAL = [
   },
 ];
 
-const Footer = () => (
+const Footer = injectIntl(({ intl }) => (
         <FooterWrapper>
           <StyledContainer>
             <Copyright>
-              <h2>Yoga with Olga Chizhikova</h2>
+              <h2>
+                {intl.formatMessage({ id:"footer_title" })}
+              </h2>
             </Copyright>
             <SocialIcons>
               {SOCIAL.map(({ icon, link }) => (
                 <ExternalLink key={link} href={link}>
-                  <img src={icon} alt="link" />
+                  <img src={icon} alt="Instagram" />
                 </ExternalLink>
               ))}
             </SocialIcons>
           </StyledContainer>
         </FooterWrapper>
-);
+));
 
 const SocialIcons = styled.div`
   display: flex;

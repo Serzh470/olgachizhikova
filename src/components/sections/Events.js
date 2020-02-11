@@ -1,6 +1,6 @@
 import React from "react";
 import { StaticQuery, graphql } from "gatsby";
-
+import { FormattedMessage } from "gatsby-plugin-intl";
 import { Section, Container } from "@components/global";
 import EventItem from "@common/EventItem";
 
@@ -9,7 +9,7 @@ const Events = () => (
   <StaticQuery
     query={graphql`
       query {
-        allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
+        allMarkdownRemark(sort:{ order:DESC, fields:[frontmatter___date] }, limit:5) {
           edges {
             node {
               excerpt
@@ -39,8 +39,13 @@ const Events = () => (
       return (
         <Section id="events">
           <Container>
-            <h1 style={{ marginBottom: 40 }}>Upcoming Events</h1>
-            {rendered_events.length ? rendered_events : <div>No upcoming events...</div>}
+            <h1 style={{ marginBottom: 40 }}>
+              <FormattedMessage id="upcoming_events" />
+            </h1>
+            {rendered_events.length ?
+              rendered_events :
+              <div><FormattedMessage id="no_upcoming_events" /></div>
+            }
           </Container>
         </Section>
       )}
