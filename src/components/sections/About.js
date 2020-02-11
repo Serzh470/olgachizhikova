@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { StaticQuery, graphql } from "gatsby";
+import { FormattedMessage } from "gatsby-plugin-intl";
 import Img from "gatsby-image";
 
 import { Section, Container } from "@components/global";
@@ -23,10 +24,11 @@ const About = () => (
         <Container>
           <Grid>
             <div>
-              <h2>About me</h2>
+              <h2>
+                <FormattedMessage id="about" />
+              </h2>
               <p>
-                This page is under development, but
-                here will be short story about me soon...
+                <FormattedMessage id="about_text" />
               </p>
             </div>
             <Art>

@@ -81,5 +81,14 @@ module.exports = {
         access_token: process.env.GATSBY_INSTAGRAM_TOKEN,
       },
     },
+    {
+      resolve: `gatsby-plugin-intl`,
+      options: {
+        path: `${__dirname}/src/intl`,
+        languages: [`ru`, `en`],
+        defaultLanguage: `ru`,
+        // redirect: true,
+      },
+    },
   ],
 };
