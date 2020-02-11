@@ -1,0 +1,15 @@
+backend:
+    name: github
+    repo: Serzh470/olgachizhikova
+
+media_folder: static/assets
+
+collections:
+  - name: events
+    label: Events
+    folder: events
+    create: true
+    fields:
+      - { name: date, label: Date, widget: date }
+      - { name: title, label: Title }
+      - { name: body, label: Body, widget: markdown }
