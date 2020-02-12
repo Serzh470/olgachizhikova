@@ -8,10 +8,14 @@ import EventItem from "@common/EventItem";
 export default () => {
     const data = useStaticQuery(graphql`
       query {
-        allMarkdownRemark(sort:{ order:DESC, fields:[frontmatter___date] }, limit:5) {
+        allMarkdownRemark(
+          sort:{ order:DESC, fields:[frontmatter___date] },
+          limit:5,
+          filter: {frontmatter: {content: { ne:true }}}
+          ) {
           edges {
             node {
-              excerpt
+              html
               id
               frontmatter {
                 title
@@ -33,7 +37,7 @@ export default () => {
         let date = new Date(post.frontmatter.date);
         return (
           <EventItem title={`${post.frontmatter.title},  ${date.toLocaleDateString(locale, options)}`} key={post.id}>
-            {post.excerpt}
+            <div dangerouslySetInnerHTML={{ __html:post.html }} />
           </EventItem>
         );
     });
@@ -52,6 +56,3 @@ export default () => {
       </Section>
     )
 };
-
-
-// export default Events;
