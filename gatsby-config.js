@@ -44,6 +44,13 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/content`,
+        name: 'markdown-pages',
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Yoga with Olga Chizhikova`,
@@ -88,6 +95,7 @@ module.exports = {
         languages: [`ru`, `en`],
         defaultLanguage: `ru`,
         redirect: true,
+        redirectComponent: require.resolve(`./src/components/redirect.js`),
       },
     },
   ],

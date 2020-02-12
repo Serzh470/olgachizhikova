@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { StaticQuery, graphql } from "gatsby";
-import { FormattedMessage } from "gatsby-plugin-intl";
+import { graphql, useStaticQuery } from "gatsby";
+import { FormattedMessage, useIntl } from "gatsby-plugin-intl";
 import Img from "gatsby-image";
 
 import { Section, Container } from "@components/global";
 
-const About = () => (
-  <StaticQuery
-    query={graphql`
+export default () => {
+  const { locale } = useIntl();
+  const data = useStaticQuery(graphql`
       query {
         about_photo: file(relativePath: { eq: "about_photo.jpg" }) {
           childImageSharp {
@@ -17,35 +17,54 @@ const About = () => (
             }
           }
         }
+
+        about_text: allMarkdownRemark(filter:{ frontmatter:{ title: { eq: "about" } } }) {
+          edges {
+            node {
+              id
+              frontmatter {
+                title
+                lang
+              }
+              html
+            }
+          }
+        }
+
       }
-    `}
-    render={data => (
-      <Section id="about">
-        <Container>
-          <Grid>
-            <div>
-              <h2>
-                <FormattedMessage id="about" />
-              </h2>
-              <p>
-                <FormattedMessage id="about_text" />
-              </p>
-            </div>
-            <Art>
-              <Img fluid={data.about_photo.childImageSharp.fluid} />
-            </Art>
-          </Grid>
-        </Container>
-      </Section>
-    )}
-  />
-);
+    `);
+
+  const about = data.about_text.edges.find((item) => item.node.frontmatter.lang === locale);
+
+  return (
+    <Section id="about">
+      <Container>
+        <Grid>
+          <Art>
+            <Img fluid={data.about_photo.childImageSharp.fluid} />
+          </Art>
+
+          <div>
+            <h2>
+              <FormattedMessage id="about" />
+            </h2>
+            <p>
+              { about ? <div dangerouslySetInnerHTML={{ __html:about.node.html }} /> : null}
+            </p>
+          </div>
+
+        </Grid>
+      </Container>
+    </Section>
+  )
+}
+
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 2fr 3fr;
   grid-gap: 40px;
-  text-align: right;
+  text-align: left;
   align-items: center;
   justify-items: center;
   margin: 24px 0;
@@ -61,6 +80,10 @@ const Grid = styled.div`
     margin-bottom: 16px;
   }
 
+  p {
+    font-size: 20px;
+  }
+
   @media (max-width: ${props => props.theme.screen.md}) {
     grid-template-columns: 1fr;
     text-align: left;
@@ -71,8 +94,8 @@ const Grid = styled.div`
     }
 
     ${props =>
-      props.inverse &&
-      `
+    props.inverse &&
+    `
         ${Art} {
           order: 2;
         }
@@ -85,5 +108,3 @@ const Art = styled.figure`
   max-width: 380px;
   width: 100%;
 `;
-
-export default About;
