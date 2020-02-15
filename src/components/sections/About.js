@@ -67,7 +67,7 @@ export default () => {
               { about ? <div dangerouslySetInnerHTML={{ __html:about.node.html }} /> : null}
               {about_details ?
                 <EventItem title={intl.formatMessage({ id:"details" })}>
-                 <div dangerouslySetInnerHTML={{ __html:about_details.node.html }} />}
+                 <div dangerouslySetInnerHTML={{ __html:about_details.node.html }} />
                 </EventItem> :
                 intl.formatMessage({ id:"about_text" })
               }
