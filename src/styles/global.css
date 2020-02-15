@@ -3,6 +3,7 @@
     font-style: normal;
     font-weight: normal;
     src: local("Corinthia"), url("../fonts/corinthia.ttf") format("truetype");
+    font-display: swap;
 }
 
 @font-face {
@@ -10,4 +11,5 @@
     font-style: normal;
     font-weight: normal;
     src: local("Whipsmart"), url("../fonts/whipsmart.ttf") format("truetype");
+    font-display: swap;
 }

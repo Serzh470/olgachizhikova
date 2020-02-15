@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { graphql, useStaticQuery } from "gatsby";
-import { FormattedMessage, useIntl } from "gatsby-plugin-intl";
+import { useIntl } from "gatsby-plugin-intl";
 import Img from "gatsby-image";
 
 import { Section, Container } from "@components/global";
+import EventItem from "@common/EventItem";
 
 export default () => {
-  const { locale } = useIntl();
+  const intl = useIntl();
   const data = useStaticQuery(graphql`
       query {
         about_photo: file(relativePath: { eq: "about_photo.jpg" }) {
@@ -31,10 +32,24 @@ export default () => {
           }
         }
 
+        about_details: allMarkdownRemark(filter:{ frontmatter:{ title: { eq: "about_details" } } }) {
+          edges {
+            node {
+              id
+              frontmatter {
+                title
+                lang
+              }
+              html
+            }
+          }
+        }
+
       }
     `);
 
-  const about = data.about_text.edges.find((item) => item.node.frontmatter.lang === locale);
+  const about = data.about_text.edges.find((item) => item.node.frontmatter.lang === intl.locale);
+  const about_details = data.about_details.edges.find((item) => item.node.frontmatter.lang === intl.locale);
 
   return (
     <Section id="about">
@@ -46,11 +61,17 @@ export default () => {
 
           <div>
             <h2>
-              <FormattedMessage id="about" />
+              {intl.formatMessage({ id:"about" })}
             </h2>
-            <p>
+            <div>
               { about ? <div dangerouslySetInnerHTML={{ __html:about.node.html }} /> : null}
-            </p>
+              {about_details ?
+                <EventItem title={intl.formatMessage({ id:"details" })}>
+                 <div dangerouslySetInnerHTML={{ __html:about_details.node.html }} />}
+                </EventItem> :
+                intl.formatMessage({ id:"about_text" })
+              }
+            </div>
           </div>
 
         </Grid>
