@@ -13,8 +13,8 @@ class Schedule extends React.Component {
   }
 
   componentDidMount() {
-    let url = process.env.GATSBY_GOOGLE_URL;
-    let api_key = process.env.GATSBY_GOOGLE_API;
+    let url = process.env.GATSBY_GOOGLE_CALENDAR_NAME;
+    let api_key = process.env.GATSBY_GOOGLE_API_KEY;
 
     fetch(`https://content.googleapis.com/calendar/v3/calendars/${url}/events?key=${api_key}`)
       .then((res) => res.json())
