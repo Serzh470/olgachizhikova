@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { graphql, StaticQuery } from "gatsby";
 import Image from "gatsby-image";
+import { FormattedMessage } from "gatsby-plugin-intl";
 
 import { Section, Container } from "@components/global";
 
@@ -39,6 +40,7 @@ const Instagram = () => (
     render={(data) => (
       <Section id="inspiration">
         <Container>
+          <h1><FormattedMessage id="inspiration" /></h1>
           <Grid>
             {
               data.allInstagramContent.edges.map((item, i) => (

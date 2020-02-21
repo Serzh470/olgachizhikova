@@ -45,9 +45,7 @@ export default () => {
     return (
       <Section id="events">
         <Container>
-          <h1 style={{ marginBottom: 40 }}>
-            <FormattedMessage id="upcoming_events" />
-          </h1>
+          <h1><FormattedMessage id="upcoming_events" /></h1>
           {rendered_events.length ?
             rendered_events :
             <div><FormattedMessage id="no_upcoming_events" /></div>

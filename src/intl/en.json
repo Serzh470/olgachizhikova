@@ -9,8 +9,16 @@
     "method": "Method",
     "inspiration": "Inspiration",
     "events": "Events",
+    "classes": "Classes",
     "upcoming_events": "Upcoming Events",
     "no_upcoming_events": "No upcoming events is planned...",
     "about_text": "This page is under development, but here will be short story about me soon...",
-    "details": "Details"
+    "details": "Details",
+    "mo": "Mo.",
+    "tu": "Tu.",
+    "we": "We.",
+    "th": "Th.",
+    "fr": "Fr.",
+    "sa": "Sa.",
+    "su": "Su."
 }
