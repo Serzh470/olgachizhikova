@@ -22,14 +22,17 @@ const GlobalStyles = createGlobalStyle`
 
   h1 {
     ${props => props.theme.font_size.xlarge};
+    margin-bottom: 40px;
   }
 
   h2 {
     ${props => props.theme.font_size.larger};
+    margin-bottom: 16px;
   }
 
   h3 {
     ${props => props.theme.font_size.large};
+    margin-bottom: 6px;
   }
 
   p {

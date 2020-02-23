@@ -72,3 +72,6 @@ yarn-error.log
 
 # test data
 */выходные-на-йога-даче-прогноз-погоды.md
+
+env.production
+env.development

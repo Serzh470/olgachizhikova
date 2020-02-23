@@ -7,6 +7,7 @@ import Header from "@sections/Header";
 import About from "@sections/About";
 import Instagram from "@sections/Instagram";
 import Events from "@sections/Events";
+import Classes from "@sections/Classes";
 import Footer from "@sections/Footer";
 
 
@@ -16,6 +17,7 @@ const IndexPage = () => (
     <Header />
     <About />
     <Instagram />
+    <Classes />
     <Events />
     <Footer />
   </Layout>

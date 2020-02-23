@@ -1,15 +1,5 @@
 const path = require("path");
 
-const activeEnv =  process.env.GATSBY_ACTIVE_ENV || process.env.NODE_ENV || "development";
-console.log(`Using environment config: '${activeEnv}'`);
-
-// special for development to get tokens
-if (activeEnv === "development") {
-  require("dotenv").config({
-    path: `.env.${activeEnv}`,
-  });
-}
-
 
 module.exports = {
   plugins: [

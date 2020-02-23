@@ -7,6 +7,55 @@ import Img from "gatsby-image";
 import { Section, Container } from "@components/global";
 import EventItem from "@common/EventItem";
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-gap: 40px;
+  text-align: left;
+  align-items: center;
+  justify-items: center;
+  margin: 24px 0;
+
+  ${props =>
+    props.inverse &&
+    `
+    text-align: left;
+    grid-template-columns: 2fr 3fr;
+  `}
+
+  h2 {
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  @media (max-width: ${props => props.theme.screen.md}) {
+    grid-template-columns: 1fr;
+    text-align: left;
+    margin-bottom: 96px;
+
+    &:last-child {
+      margin-bottom: 24px;
+    }
+
+    ${props =>
+    props.inverse &&
+    `
+        ${Art} {
+          order: 2;
+        }
+    `}
+  }
+`;
+
+const Art = styled.figure`
+  margin: 0;
+  max-width: 380px;
+  width: 100%;
+`;
+
 export default () => {
   const intl = useIntl();
   const data = useStaticQuery(graphql`
@@ -60,11 +109,9 @@ export default () => {
           </Art>
 
           <div>
-            <h2>
-              {intl.formatMessage({ id:"about" })}
-            </h2>
+            <h1>{intl.formatMessage({ id:"about" })}</h1>
             <div>
-              { about ? <div dangerouslySetInnerHTML={{ __html:about.node.html }} /> : null}
+              {about ? <div dangerouslySetInnerHTML={{ __html:about.node.html }} /> : null}
               {about_details ?
                 <EventItem title={intl.formatMessage({ id:"details" })}>
                  <div dangerouslySetInnerHTML={{ __html:about_details.node.html }} />
@@ -80,52 +127,3 @@ export default () => {
   )
 }
 
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  grid-gap: 40px;
-  text-align: left;
-  align-items: center;
-  justify-items: center;
-  margin: 24px 0;
-
-  ${props =>
-    props.inverse &&
-    `
-    text-align: left;
-    grid-template-columns: 2fr 3fr;
-  `}
-
-  h2 {
-    margin-bottom: 16px;
-  }
-
-  p {
-    font-size: 20px;
-  }
-
-  @media (max-width: ${props => props.theme.screen.md}) {
-    grid-template-columns: 1fr;
-    text-align: left;
-    margin-bottom: 96px;
-
-    &:last-child {
-      margin-bottom: 24px;
-    }
-
-    ${props =>
-    props.inverse &&
-    `
-        ${Art} {
-          order: 2;
-        }
-    `}
-  }
-`;
-
-const Art = styled.figure`
-  margin: 0;
-  max-width: 380px;
-  width: 100%;
-`;
