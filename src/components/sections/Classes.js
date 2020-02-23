@@ -2,15 +2,15 @@ import React from "react";
 
 import { FormattedMessage } from "gatsby-plugin-intl";
 import { Section, Container } from "@components/global";
-import Class from "@components/common/Class";
 import ClassesGrid from "@components/common/ClassesGrid";
 
 
 let getFirstLastDays = () => {
   // get current date
   const curr = new Date;
-  // First day is the day of the month - the day of the week
-  const first = curr.getDate() - curr.getDay() + 1;
+  // First day is the day of the month - the day of the week/ hask for JS 0 for sunday
+  let current_day = curr.getDay() ? curr.getDay() + 1 : 7;
+  const first = curr.getDate() - current_day;
   // last day is the first day + 6
   const last = first + 6;
   return {
@@ -61,12 +61,7 @@ class Classes extends React.Component {
       <Section id="classes">
         <Container>
           <h1><FormattedMessage id="classes" /></h1>
-          <ClassesGrid>
-            {this.state.events && this.state.events.length ?
-              this.state.events.map((item) => <Class key={item.id} class={item} />) :
-              null
-            }
-          </ClassesGrid>
+          <ClassesGrid classes={this.state.events} />
         </Container>
       </Section>
     );

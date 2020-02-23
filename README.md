@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Homepage Logo" src="./src/images/header_logo.svg" width="60" />
+    <img alt="Homepage Logo" src="./src/images/header_logo.svg" width="120" />
 </p>
 <h1 align="center">
   Personal Homepage Project
@@ -54,7 +54,7 @@ A quick look at the top-level files and directories you'll see in a Gatsby proje
 
 4.  **`.prettierrc`**: This is a configuration file for [Prettier](https://prettier.io/). Prettier is a tool to help keep the formatting of your code consistent.
 
-5. **`env.development`**: Contained variables for development enviroment. Variables are injected in JS code. Not hosted in git
+5. **`env.development`**: Only for saving vairables for development enviroment. You have to export this variables in bash enviroment by hand. Variables are injected in JS code. File hosted in git
     * `GATSBY_INSTAGRAM_TOKEN`. [Fast way to get yours](http://instagram.pixelunion.net/)
     * `GATSBY_GOOGLE_CALENDAR_NAME`. Calendar ID ****@group.calendar.google.com. Get yours in google calendar settings
     * `GATSBY_GOOGLE_API_KEY`. [Add new api for access public google calendar](https://console.developers.google.com/apis/credentials)

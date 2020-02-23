@@ -14,11 +14,13 @@
     "no_upcoming_events": "No upcoming events is planned...",
     "about_text": "This page is under development, but here will be short story about me soon...",
     "details": "Details",
-    "mo": "Mo.",
-    "tu": "Tu.",
-    "we": "We.",
-    "th": "Th.",
-    "fr": "Fr.",
-    "sa": "Sa.",
-    "su": "Su."
+    "mo": "Monday",
+    "tu": "Tuesday",
+    "we": "Wednesday",
+    "th": "Thursday",
+    "fr": "Friday",
+    "sa": "Saturday",
+    "su": "Sunday",
+    "no_classes": "Oops, there are no classes planed yet on this week...",
+    "no_classes_today": "There are no classes..."
 }

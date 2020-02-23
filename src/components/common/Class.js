@@ -5,13 +5,16 @@ import { useIntl } from "gatsby-plugin-intl";
 
 const ClassFrame = styled.div`
   width: 100%;
-  border: 1px solid #ABA8AF;;
-  border-radius: 5px;
-  grid-auto-flow: dense;
-  padding: 5px;
-  background-image: linear-gradient(-222deg, #FF8494, #ffa9b7);
-  box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);
-  grid-column:${({ day }) => day} / ${({ day }) => (day + 1)};
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  text-align: center;
+  padding: 15px;
+  margin: 0 auto;
+  margin-bottom: 25px;
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
 `;
 
 
@@ -20,15 +23,18 @@ const Class = ({
   class: { summary, location, date_start, date_end }
   }) => {
   const { locale } = useIntl();
-  const date = { year:"numeric", month:"long", day:"numeric" };
+  const date = { year:"numeric", month:"short", day:"numeric" };
   const time = { hour:"2-digit", minute:"2-digit" };
 
   return (
     <ClassFrame day={date_start.getDay()}>
-        <h4>{summary}</h4>
-        {/* <h5>{date_start.toLocaleDateString(locale, date)}</h5> */}
-        <h5>{date_start.toLocaleTimeString(locale, time)} - {date_end.toLocaleTimeString(locale, time)}</h5>
-        <h5>{location}</h5>
+        <p>{summary}</p>
+        <p>
+          {`${date_start.toLocaleTimeString(locale, time)} -
+          ${date_end.toLocaleTimeString(locale, time)},
+          ${date_start.toLocaleDateString(locale, date)}`}
+        </p>
+        <p className="location" title={location}>{location}</p>
     </ClassFrame>
   );
 };
