@@ -34,7 +34,7 @@ export const Section = styled.section`
   overflow: hidden;
 
   @media (max-width: ${props => props.theme.screen.md}) {
-    padding: 96px 0;
+    padding: 0 0 96px 0;
   }
 
   ${props =>

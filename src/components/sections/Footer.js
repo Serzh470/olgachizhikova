@@ -15,22 +15,20 @@ const SOCIAL = [
 ];
 
 const Footer = injectIntl(({ intl }) => (
-        <FooterWrapper>
-          <StyledContainer>
-            <Copyright>
-              <h2>
-                {intl.formatMessage({ id:"footer_title" })}
-              </h2>
-            </Copyright>
-            <SocialIcons>
-              {SOCIAL.map(({ icon, link }) => (
-                <ExternalLink key={link} href={link}>
-                  <img src={icon} alt="Instagram" />
-                </ExternalLink>
-              ))}
-            </SocialIcons>
-          </StyledContainer>
-        </FooterWrapper>
+  <FooterWrapper>
+    <StyledContainer>
+      <Copyright>
+        <h2>{intl.formatMessage({ id: "footer_title" })}</h2>
+      </Copyright>
+      <SocialIcons>
+        {SOCIAL.map(({ icon, link }) => (
+          <ExternalLink key={link} href={link}>
+            <img src={icon} alt="Instagram" />
+          </ExternalLink>
+        ))}
+      </SocialIcons>
+    </StyledContainer>
+  </FooterWrapper>
 ));
 
 const SocialIcons = styled.div`

@@ -2,10 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { StaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
-import header_logo from "../../images/header_logo.svg"
-
-import { Container } from "@components/global";
-
+import header_logo from "../../images/header_logo.svg";
 
 const Header = () => (
   <StaticQuery
@@ -13,7 +10,7 @@ const Header = () => (
       query {
         header_photo: file(relativePath: { eq: "header_photo.png" }) {
           childImageSharp {
-            fluid(maxWidth: 1400) {
+            fluid(maxWidth: 1920) {
               ...GatsbyImageSharpFluid_withWebp_tracedSVG
             }
           }
@@ -30,10 +27,10 @@ const Header = () => (
     `}
     render={data => (
       <HeaderWrapper>
-            <Art>
-              <Img fluid={data.header_photo.childImageSharp.fluid} />
-              <Logo src={header_logo} alt="logo" />
-            </Art>
+        <Art>
+          <Img fluid={data.header_photo.childImageSharp.fluid} />
+          <Logo src={header_logo} alt="logo" />
+        </Art>
       </HeaderWrapper>
     )}
   />
@@ -45,7 +42,7 @@ const HeaderWrapper = styled.header`
   padding-bottom: 128px;
 
   @media (max-width: ${props => props.theme.screen.md}) {
-    padding-top: 128px;
+    padding-top: 81px;
   }
 `;
 
@@ -70,6 +67,5 @@ const Logo = styled.img`
   width: 30%;
   height: 60%;
 `;
-
 
 export default Header;

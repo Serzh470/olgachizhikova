@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const Wrapper = styled.div`
   &:hover {
     cursor: pointer;
@@ -28,7 +27,7 @@ export const Wrapper = styled.div`
     position: relative;
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       width: 10px;
       height: 10px;
