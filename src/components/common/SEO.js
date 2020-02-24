@@ -22,18 +22,21 @@ const SEO = ({ description, title, lang, keywords }) => (
     <meta name="author" content={SEO_DATA.author} />
     <title>{title}</title>
     <html lang={lang} />
-    <link rel="preload"
-            as="font"
-            href={FontUrl1}
-            type="font/truetype"
-            crossOrigin="anonymous" />
-    <link rel="preload"
-          as="font"
-          href={FontUrl2}
-          type="font/truetype"
-          crossOrigin="anonymous" />
+    <link
+      rel="preload"
+      as="font"
+      href={FontUrl1}
+      type="font/truetype"
+      crossOrigin="anonymous"
+    />
+    <link
+      rel="preload"
+      as="font"
+      href={FontUrl2}
+      type="font/truetype"
+      crossOrigin="anonymous"
+    />
   </Helmet>
 );
-
 
 export default SEO;

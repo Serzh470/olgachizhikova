@@ -1,8 +1,6 @@
 import React from "react";
 import Collapsible from "react-collapsible";
-
 import { Wrapper } from "./style";
-
 
 const EventItem = ({ title, children }) => (
   <Wrapper>

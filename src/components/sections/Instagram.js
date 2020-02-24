@@ -6,7 +6,6 @@ import { FormattedMessage } from "gatsby-plugin-intl";
 
 import { Section, Container } from "@components/global";
 
-
 const Instagram = () => (
   <StaticQuery
     query={graphql`
@@ -17,7 +16,7 @@ const Instagram = () => (
               link
               localImage {
                 childImageSharp {
-                  fluid(maxHeight: 500, maxWidth: 500 quality: 50) {
+                  fluid(maxHeight: 500, maxWidth: 500, quality: 50) {
                     ...GatsbyImageSharpFluid_withWebp_tracedSVG
                   }
                 }
@@ -37,34 +36,35 @@ const Instagram = () => (
         }
       }
     `}
-    render={(data) => (
+    render={data => (
       <Section id="inspiration">
         <Container>
-          <h1><FormattedMessage id="inspiration" /></h1>
+          <h1>
+            <FormattedMessage id="inspiration" />
+          </h1>
           <Grid>
-            {
-              data.allInstagramContent.edges.map((item, i) => (
-                item.node.localImage ? (
-                  <Photo key={i}>
-                    <a
-                      href={item.node.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      tabIndex="0"
-                    >
-                      <Image fluid={item.node.localImage.childImageSharp.fluid} />
-                    </a>
-                  </Photo>
-                ) : (<div></div>)
-              ))
-            }
+            {data.allInstagramContent.edges.map((item, i) =>
+              item.node.localImage ? (
+                <Photo key={i}>
+                  <a
+                    href={item.node.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex="0"
+                  >
+                    <Image fluid={item.node.localImage.childImageSharp.fluid} />
+                  </a>
+                </Photo>
+              ) : (
+                <div></div>
+              )
+            )}
           </Grid>
         </Container>
       </Section>
     )}
   />
 );
-
 
 const Grid = styled.div`
   width: 100%;
@@ -95,6 +95,5 @@ const Photo = styled.div`
     opacity: 1;
   }
 `;
-
 
 export default Instagram;

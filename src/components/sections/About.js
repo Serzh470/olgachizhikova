@@ -41,8 +41,8 @@ const Grid = styled.div`
     }
 
     ${props =>
-    props.inverse &&
-    `
+      props.inverse &&
+      `
         ${Art} {
           order: 2;
         }
@@ -59,71 +59,83 @@ const Art = styled.figure`
 export default () => {
   const intl = useIntl();
   const data = useStaticQuery(graphql`
-      query {
-        about_photo: file(relativePath: { eq: "about_photo.jpg" }) {
-          childImageSharp {
-            fluid(maxWidth: 760) {
-              ...GatsbyImageSharpFluid_withWebp_tracedSVG
-            }
+    query {
+      about_photo: file(relativePath: { eq: "about_photo.jpg" }) {
+        childImageSharp {
+          fluid(maxWidth: 760) {
+            ...GatsbyImageSharpFluid_withWebp_tracedSVG
           }
         }
-
-        about_text: allMarkdownRemark(filter:{ frontmatter:{ title: { eq: "about" } } }) {
-          edges {
-            node {
-              id
-              frontmatter {
-                title
-                lang
-              }
-              html
-            }
-          }
-        }
-
-        about_details: allMarkdownRemark(filter:{ frontmatter:{ title: { eq: "about_details" } } }) {
-          edges {
-            node {
-              id
-              frontmatter {
-                title
-                lang
-              }
-              html
-            }
-          }
-        }
-
       }
-    `);
 
-  const about = data.about_text.edges.find((item) => item.node.frontmatter.lang === intl.locale);
-  const about_details = data.about_details.edges.find((item) => item.node.frontmatter.lang === intl.locale);
+      about_text: allMarkdownRemark(
+        filter: { frontmatter: { title: { eq: "about" } } }
+      ) {
+        edges {
+          node {
+            id
+            frontmatter {
+              title
+              lang
+            }
+            html
+          }
+        }
+      }
+
+      about_details: allMarkdownRemark(
+        filter: { frontmatter: { title: { eq: "about_details" } } }
+      ) {
+        edges {
+          node {
+            id
+            frontmatter {
+              title
+              lang
+            }
+            html
+          }
+        }
+      }
+    }
+  `);
+
+  const about = data.about_text.edges.find(
+    item => item.node.frontmatter.lang === intl.locale
+  );
+  const about_details = data.about_details.edges.find(
+    item => item.node.frontmatter.lang === intl.locale
+  );
 
   return (
     <Section id="about">
       <Container>
+        <h1>{intl.formatMessage({ id: "about" })}</h1>
         <Grid>
           <Art>
             <Img fluid={data.about_photo.childImageSharp.fluid} />
           </Art>
 
           <div>
-            <h1>{intl.formatMessage({ id:"about" })}</h1>
             <div>
-              {about ? <div dangerouslySetInnerHTML={{ __html:about.node.html }} /> : null}
-              {about_details ?
-                <EventItem title={intl.formatMessage({ id:"details" })}>
-                 <div dangerouslySetInnerHTML={{ __html:about_details.node.html }} />
-                </EventItem> :
-                intl.formatMessage({ id:"about_text" })
-              }
+              {about ? (
+                <div dangerouslySetInnerHTML={{ __html: about.node.html }} />
+              ) : null}
+              {about_details ? (
+                <EventItem title={intl.formatMessage({ id: "details" })}>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: about_details.node.html,
+                    }}
+                  />
+                </EventItem>
+              ) : (
+                intl.formatMessage({ id: "about_text" })
+              )}
             </div>
           </div>
-
         </Grid>
       </Container>
     </Section>
-  )
-}
-
+  );
+};

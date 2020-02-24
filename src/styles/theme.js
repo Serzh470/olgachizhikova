@@ -1,6 +1,5 @@
 import "./global.css";
 
-
 const theme = {
   font: {
     primary: "Corinthia",

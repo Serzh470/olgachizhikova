@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import Scrollspy from "react-scrollspy";
 import { FormattedMessage } from "gatsby-plugin-intl";
-
 import Language from "./Language";
 import { Container } from "@components/global";
 import {
@@ -14,7 +13,6 @@ import {
   MobileMenu,
   Mobile,
 } from "./style";
-
 import { ReactComponent as MenuIcon } from "@static/icons/menu.svg";
 
 const NAV_ITEMS = ["about", "method", "inspiration", "classes", "events"];
@@ -34,23 +32,26 @@ class Navbar extends Component {
     }
   };
 
-  getNavAnchorLink = (item) => {
+  getNavAnchorLink = item => {
     return (
-      <AnchorLink href={`#${item.toLowerCase()}`} onClick={this.closeMobileMenu}>
+      <AnchorLink
+        href={`#${item.toLowerCase()}`}
+        onClick={this.closeMobileMenu}
+      >
         <FormattedMessage id={item} />
       </AnchorLink>
     );
-  }
+  };
 
   getNavList = ({ mobile = false }) => (
     <NavListWrapper mobile={mobile}>
       <Scrollspy
-        items={NAV_ITEMS.map((item) => item.toLowerCase())}
+        items={NAV_ITEMS.map(item => item.toLowerCase())}
         currentClassName="active"
         mobile={mobile}
         offset={-64}
       >
-        {NAV_ITEMS.map((navItem) => (
+        {NAV_ITEMS.map(navItem => (
           <NavItem key={navItem}>{this.getNavAnchorLink(navItem)}</NavItem>
         ))}
       </Scrollspy>
