@@ -54,7 +54,7 @@ const ClassesGrid = ({ classes }) => {
   return (
     <Grid>
       {week_days.map((day, i) => {
-        let day_classes = classes.filter(el => el.date_start.getDay() === i);
+        let day_classes = classes.filter(el => el.start.getDay() === i);
         return (
           <div key={i} className={`class ${day}`}>
             <h2>
