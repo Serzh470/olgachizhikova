@@ -16,18 +16,18 @@ const ClassFrame = styled.div`
   }
 `;
 
-const Class = ({ class: { summary, location, date_start, date_end } }) => {
+const Class = ({ class: { title, location, start, end } }) => {
   const { locale } = useIntl();
   const date = { year: "numeric", month: "short", day: "numeric" };
   const time = { hour: "2-digit", minute: "2-digit" };
 
   return (
-    <ClassFrame day={date_start.getDay()}>
-      <p>{summary}</p>
+    <ClassFrame day={start.getDay()}>
+      <p>{title}</p>
       <p>
-        {`${date_start.toLocaleTimeString(locale, time)} -
-          ${date_end.toLocaleTimeString(locale, time)},
-          ${date_start.toLocaleDateString(locale, date)}`}
+        {`${start.toLocaleTimeString(locale, time)} -
+          ${end.toLocaleTimeString(locale, time)},
+          ${start.toLocaleDateString(locale, date)}`}
       </p>
       <h4 title={location}>{location}</h4>
     </ClassFrame>
