@@ -1,4 +1,4 @@
-const moment = require("moment");
+import { isEqual, addMonths } from "date-fns";
 
 /*
  * Handles events that occure the same date of every month
@@ -6,63 +6,49 @@ const moment = require("moment");
  */
 
 // handleDateOfMonth :: String -> Int -> {} -> [{}]
-const handleDateOfMonth = (calendar, recurrence, e, cancelled) => {
-  const start = e.start.date ? moment(e.start.date) : moment(e.start.dateTime);
-  const end = e.end.date ? moment(e.start.date) : moment(e.end.dateTime);
+const handleDateOfMonth = (recurrence, e, cancelled) => {
+  const start = e.start.date
+    ? new Date(e.start.date)
+    : new Date(e.start.dateTime);
+  const end = e.end.date ? new Date(e.start.date) : new Date(e.end.dateTime);
 
   // add first event if not cancelled
-  let is_cancelled = cancelled.find(item => {
-    if (
+  let is_cancelled = cancelled.find(
+    (item) =>
       item.recurringEventId === e.id &&
-      start.isSame(item.originalStartTime.dateTime)
-    ) {
-      return true;
-    }
-    return false;
-  });
+      isEqual(start, new Date(item.originalStartTime.dateTime))
+  );
 
   let reoccurringEvents = [];
   if (!is_cancelled) {
     reoccurringEvents.push({
-      eventType: calendar.name,
-      creator: e.creator,
-      end: end._d,
-      gLink: e.htmlLink,
+      start: start,
+      end: end,
       description: e.description,
       location: e.location,
-      start: start._d,
       title: e.summary,
-      // meta: e,
     });
   }
 
   let add = 1;
 
   while (recurrence > 0) {
-    let is_cancelled = cancelled.find(item => {
-      if (
+    let is_cancelled = cancelled.find(
+      (item) =>
         item.recurringEventId === e.id &&
-        start
-          .clone()
-          .add(add, "months")
-          .isSame(item.originalStartTime.dateTime)
-      ) {
-        return true;
-      }
-      return false;
-    });
+        isEqual(
+          addMonths(start, add),
+          new Date(item.originalStartTime.dateTime)
+        )
+    );
 
     if (!is_cancelled) {
       const reoccurringEvent = {
-        eventType: calendar.name,
-        creator: e.creator,
-        start: start.clone().add(add, "months")._d,
-        end: end.clone().add(add, "months")._d,
-        gLink: e.htmlLink,
+        start: addMonths(start, add),
+        end: addMonths(end, add),
         description: e.description,
         location: e.location,
         title: e.summary,
-        // meta: e,
       };
       reoccurringEvents.push(reoccurringEvent);
     }
@@ -74,4 +60,4 @@ const handleDateOfMonth = (calendar, recurrence, e, cancelled) => {
   return reoccurringEvents;
 };
 
-module.exports = handleDateOfMonth;
+export default handleDateOfMonth;

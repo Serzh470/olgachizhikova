@@ -1,4 +1,4 @@
-const moment = require("moment");
+import { isEqual } from "date-fns";
 
 /*
  * Handles events that occur the same day of the month
@@ -6,9 +6,11 @@ const moment = require("moment");
  */
 
 // handleDayOfMonth :: String -> Int -> {} -> [{}]
-const handleDayOfMonth = (calendar, recurrence, e) => {
-  const start = e.start.date ? moment(e.start.date) : moment(e.start.dateTime);
-  const end = e.end.date ? moment(e.start.date) : moment(e.end.dateTime);
+const handleDayOfMonth = (recurrence, e, cancelled) => {
+  const start = e.start.date
+    ? new Date(e.start.date)
+    : new Date(e.start.dateTime);
+  const end = e.end.date ? new Date(e.start.date) : new Date(e.end.dateTime);
 
   const date = start.date();
   let counter;
@@ -25,19 +27,24 @@ const handleDayOfMonth = (calendar, recurrence, e) => {
     counter = 28;
   }
 
-  let reoccurringEvents = [
-    {
-      eventType: calendar.name,
-      creator: e.creator,
-      end: end._d,
-      gLink: e.htmlLink,
+  // check if first event is cancelled
+  let is_cancelled = cancelled.find(
+    (item) =>
+      item.recurringEventId === e.id &&
+      isEqual(start, new Date(item.originalStartTime.dateTime))
+  );
+
+  // add first event if not cancelled
+  let reoccurringEvents = [];
+  if (!is_cancelled) {
+    reoccurringEvents.push({
+      start: start,
+      end: end,
       description: e.description,
       location: e.location,
-      start: start._d,
       title: e.summary,
-      // meta: e,
-    },
-  ];
+    });
+  }
 
   while (recurrence > 0) {
     let tempCounter = counter;
@@ -61,20 +68,25 @@ const handleDayOfMonth = (calendar, recurrence, e) => {
       let isEqual = nextStart.getDay() === start.day();
 
       if (isEqual) {
-        const reoccurringEvent = {
-          eventType: calendar.name,
-          creator: e.creator,
-          end: nextEnd,
-          gLink: e.htmlLink,
-          description: e.description,
-          location: e.location,
-          start: nextStart,
-          title: e.summary,
-          // meta: e,
-        };
-        reoccurringEvents.push(reoccurringEvent);
-        tempCounter = counter;
-        break;
+        // check if next events cancelled
+        let is_cancelled = cancelled.find(
+          (item) =>
+            item.recurringEventId === e.id &&
+            isEqual(nextStart, new Date(item.originalStartTime.dateTime))
+        );
+
+        if (!is_cancelled) {
+          const reoccurringEvent = {
+            start: nextStart,
+            end: nextEnd,
+            description: e.description,
+            location: e.location,
+            title: e.summary,
+          };
+          reoccurringEvents.push(reoccurringEvent);
+          tempCounter = counter;
+          break;
+        }
       }
 
       nextStart = new Date(
@@ -98,4 +110,4 @@ const handleDayOfMonth = (calendar, recurrence, e) => {
   return reoccurringEvents;
 };
 
-module.exports = handleDayOfMonth;
+export default handleDayOfMonth;

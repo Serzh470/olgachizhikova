@@ -4,17 +4,17 @@
 
 // filterByOneProperty :: String -> [{}] -> [{}]
 const filterByOneProperty = (propterty, events) =>
-  events.filter(event => event.r[0] === propterty);
+  events.filter((event) => event.r[0] === propterty);
 
 // filterIncludesString :: [] -> String -> Bool
 const filterIncludesString = (filters, str) =>
   filters[filters.length - 1].includes(str);
 
 // oneTime :: String -> [{}] -> [{}]
-const oneTime = (calendar, events) =>
+const oneTime = (events) =>
   events
-    .filter(item => !item.recurrence)
-    .map(e => {
+    .filter((item) => !item.recurrence)
+    .map((e) => {
       // account for all day events and arbitrarily set time to 8am-5pm
       const start = e.start.date
         ? new Date(`${e.start.date}T08:00:00`)
@@ -25,7 +25,6 @@ const oneTime = (calendar, events) =>
 
       return {
         title: e.summary,
-        eventType: calendar.name,
         start: start,
         end: end,
         description: e.description,
@@ -36,35 +35,40 @@ const oneTime = (calendar, events) =>
     });
 
 // recurring :: [{}] -> [{}]
-const recurring = events =>
+const recurring = (events) =>
   events
-    .filter(item => item.recurrence)
-    .map(event => ({ e: event, r: event.recurrence[0].split(";") }));
+    .filter((item) => item.recurrence)
+    .map((event) => ({ e: event, r: event.recurrence[0].split(";") }));
 
 // recurringByProperty :: [{}] -> Function -> String -> Int -> [{}]
-const recurringByProperty = (events, fn, calendar, occurences, cancelled) =>
+const recurringByProperty = (events, fn, occurences, cancelled) =>
   [].concat
     .apply([], events)
-    .map(event => fn(calendar, occurences, event, cancelled));
-
-// filter cancelled events for cancell recurring events
-const cancelledEvents = events =>
-  events.filter(item => item.status === "cancelled");
+    .map((event) => fn(occurences, event, cancelled));
 
 // removeCancelled :: [{}] -> [{}]
-const removeCancelled = events =>
-  events.filter(item => item.status !== "cancelled");
+const removeCancelled = (all) => {
+  let events = [];
+  let cancelled = [];
+  for (let item of all) {
+    if (item.status === "cancelled") {
+      cancelled.push(item);
+    } else {
+      events.push(item);
+    }
+  }
+  return { events, cancelled };
+};
 
 // removeRecurrenceProperty :: [{}] -> [{}]
-const removeRecurrenceProperty = events => events.map(event => event.e);
+const removeRecurrenceProperty = (events) => events.map((event) => event.e);
 
-module.exports = {
+export {
   filterByOneProperty,
   filterIncludesString,
   oneTime,
   recurring,
   recurringByProperty,
-  cancelledEvents,
   removeCancelled,
   removeRecurrenceProperty,
 };
