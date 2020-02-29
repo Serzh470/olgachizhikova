@@ -23,7 +23,9 @@ class Navbar extends Component {
   };
 
   toggleMobileMenu = () => {
-    this.setState(prevState => ({ mobileMenuOpen: !prevState.mobileMenuOpen }));
+    this.setState((prevState) => ({
+      mobileMenuOpen: !prevState.mobileMenuOpen,
+    }));
   };
 
   closeMobileMenu = () => {
@@ -32,7 +34,7 @@ class Navbar extends Component {
     }
   };
 
-  getNavAnchorLink = item => {
+  getNavAnchorLink = (item) => {
     return (
       <AnchorLink
         href={`#${item.toLowerCase()}`}
@@ -46,12 +48,12 @@ class Navbar extends Component {
   getNavList = ({ mobile = false }) => (
     <NavListWrapper mobile={mobile}>
       <Scrollspy
-        items={NAV_ITEMS.map(item => item.toLowerCase())}
+        items={NAV_ITEMS.map((item) => item.toLowerCase())}
         currentClassName="active"
         mobile={mobile}
         offset={-64}
       >
-        {NAV_ITEMS.map(navItem => (
+        {NAV_ITEMS.map((navItem) => (
           <NavItem key={navItem}>{this.getNavAnchorLink(navItem)}</NavItem>
         ))}
       </Scrollspy>

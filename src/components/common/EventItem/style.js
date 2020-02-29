@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   }
 
   .faq {
-    border-bottom: 2px solid ${props => props.theme.color.black.lighter};
+    border-bottom: 2px solid ${(props) => props.theme.color.black.lighter};
   }
 
   .faq-title {
@@ -18,8 +18,8 @@ export const Wrapper = styled.div`
     text-align: left;
     cursor: pointer;
 
-    font-family: ${props => props.theme.font.secondary};
-    ${props => props.theme.font_size.regular};
+    font-family: ${(props) => props.theme.font.secondary};
+    ${(props) => props.theme.font_size.regular};
     font-weight: bold;
     padding: 24px;
     padding-right: 72px;
@@ -31,8 +31,8 @@ export const Wrapper = styled.div`
       display: block;
       width: 10px;
       height: 10px;
-      border-left: 2px solid ${props => props.theme.color.black.regular};
-      border-bottom: 2px solid ${props => props.theme.color.black.regular};
+      border-left: 2px solid ${(props) => props.theme.color.black.regular};
+      border-bottom: 2px solid ${(props) => props.theme.color.black.regular};
       position: absolute;
       top: 34px;
       right: 36px;
@@ -50,7 +50,7 @@ export const Wrapper = styled.div`
   .faq-content {
     padding: 0 72px 32px 16px;
     line-height: 26px;
-    ${props => props.theme.font_size.small};
-    color: ${props => props.theme.color.black.light};
+    ${(props) => props.theme.font_size.small};
+    color: ${(props) => props.theme.color.black.light};
   }
 `;

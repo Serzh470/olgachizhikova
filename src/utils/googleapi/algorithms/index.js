@@ -1,11 +1,6 @@
-const handleDaily = require("./handleDaily");
-const handleDateOfMonth = require("./handleDateOfMonth");
-const handleDayOfMonth = require("./handleDayOfMonth");
-const handleWeekly = require("./handleWeekly");
+import handleDaily from "./handleDaily";
+import handleDateOfMonth from "./handleDateOfMonth";
+import handleDayOfMonth from "./handleDayOfMonth";
+import handleWeekly from "./handleWeekly";
 
-module.exports = {
-  handleDaily,
-  handleDateOfMonth,
-  handleDayOfMonth,
-  handleWeekly,
-};
+export { handleDaily, handleDateOfMonth, handleDayOfMonth, handleWeekly };

@@ -25,7 +25,7 @@ const Header = () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <HeaderWrapper>
         <Art>
           <Img fluid={data.header_photo.childImageSharp.fluid} />
@@ -37,11 +37,11 @@ const Header = () => (
 );
 
 const HeaderWrapper = styled.header`
-  background-color: ${props => props.theme.color.primary};
+  background-color: ${(props) => props.theme.color.primary};
   padding-top: 80px;
   padding-bottom: 128px;
 
-  @media (max-width: ${props => props.theme.screen.md}) {
+  @media (max-width: ${(props) => props.theme.screen.md}) {
     padding-top: 81px;
   }
 `;
@@ -54,7 +54,7 @@ const Art = styled.figure`
   > div {
     width: 100%;
 
-    @media (max-width: ${props => props.theme.screen.md}) {
+    @media (max-width: ${(props) => props.theme.screen.md}) {
       width: 100%;
     }
   }

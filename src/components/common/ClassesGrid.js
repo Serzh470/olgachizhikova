@@ -42,7 +42,7 @@ const Grid = styled.div`
     grid-area: su;
   }
 
-  @media (max-width: ${props => props.theme.screen.md}) {
+  @media (max-width: ${(props) => props.theme.screen.md}) {
     grid-template-columns: 1fr;
     grid-template-areas: "mo" "tu" "we" "th" "fr" "sa" "su";
   }
@@ -54,7 +54,7 @@ const ClassesGrid = ({ classes }) => {
   return (
     <Grid>
       {week_days.map((day, i) => {
-        let day_classes = classes.filter(el => el.start.getDay() === i);
+        let day_classes = classes.filter((el) => el.start.getDay() === i);
         return (
           <div key={i} className={`class ${day}`}>
             <h2>

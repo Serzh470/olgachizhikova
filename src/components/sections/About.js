@@ -16,7 +16,7 @@ const Grid = styled.div`
   justify-items: center;
   margin: 24px 0;
 
-  ${props =>
+  ${(props) =>
     props.inverse &&
     `
     text-align: left;
@@ -31,7 +31,7 @@ const Grid = styled.div`
     font-size: 20px;
   }
 
-  @media (max-width: ${props => props.theme.screen.md}) {
+  @media (max-width: ${(props) => props.theme.screen.md}) {
     grid-template-columns: 1fr;
     text-align: left;
     margin-bottom: 96px;
@@ -40,7 +40,7 @@ const Grid = styled.div`
       margin-bottom: 24px;
     }
 
-    ${props =>
+    ${(props) =>
       props.inverse &&
       `
         ${Art} {
@@ -101,10 +101,10 @@ export default () => {
   `);
 
   const about = data.about_text.edges.find(
-    item => item.node.frontmatter.lang === intl.locale
+    (item) => item.node.frontmatter.lang === intl.locale
   );
   const about_details = data.about_details.edges.find(
-    item => item.node.frontmatter.lang === intl.locale
+    (item) => item.node.frontmatter.lang === intl.locale
   );
 
   return (
