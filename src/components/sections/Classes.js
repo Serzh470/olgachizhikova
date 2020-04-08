@@ -24,26 +24,14 @@ class Classes extends React.Component {
 
     const calendar_configuration = {
       api_key: process.env.GATSBY_GOOGLE_API_KEY,
-      calendars: [
-        {
-          name: "Classes",
-          url: process.env.GATSBY_GOOGLE_CALENDAR_NAME,
-        },
-      ],
-      dailyRecurrence: 90,
-      weeklyRecurrence: 12,
-      monthlyRecurrence: 3,
+      url: process.env.GATSBY_GOOGLE_CALENDAR_NAME,
+      start: first,
+      end: last,
     };
 
     googleAPI
       .getAllCalendars(calendar_configuration)
-      .then((raw_events) => {
-        let events = raw_events
-          .filter((item) => item.start >= first && item.end <= last)
-          .sort((a, b) => a.start > b.start);
-
-        this.setState({ events });
-      })
+      .then(events => this.setState({ events }))
       .catch(err => {
         throw new Error(err);
       });

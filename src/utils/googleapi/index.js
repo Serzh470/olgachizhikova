@@ -1,118 +1,42 @@
-import * as Promise from "bluebird";
-
-import {
-  handleDaily,
-  handleDateOfMonth,
-  handleDayOfMonth,
-  handleWeekly,
-} from "./algorithms";
-import {
-  filterByOneProperty,
-  filterIncludesString,
-  oneTime,
-  recurring,
-  recurringByProperty,
-  cancelledEvents,
-  removeCancelled,
-  removeRecurrenceProperty,
-} from "./functions";
-
-// Object.defineProperty(Array.prototype, "flat", {
-//   value: function(depth = 1) {
-//     return this.reduce(function(flat, toFlatten) {
-//       return flat.concat(
-//         Array.isArray(toFlatten) && depth - 1
-//           ? toFlatten.flat(depth - 1)
-//           : toFlatten
-//       );
-//     }, []);
-//   },
-// });
+import { formatRFC3339 } from "date-fns";
 
 export default {
   /*
    * Get events from all calendars specified and created specified number of recurring events
    */
-  getAllCalendars: config =>
-    Promise.map(config.calendars, calendar => {
-      // get each calendar
-      return fetch(
-        `https://content.googleapis.com/calendar/v3/calendars/${calendar.url}/events?key=${config.api_key}`
-      )
-        .then(res => res.json())
-        .then(res => {
-          const items = res.items;
-          const cancelled = cancelledEvents(items);
-          const events = removeCancelled(items);
-          const oneTimeEvents = oneTime(calendar, events);
-          const recurringEvents = recurring(events);
+  getAllCalendars: config => {
+    const start = encodeURIComponent(formatRFC3339(config.start));
+    const end = encodeURIComponent(formatRFC3339(config.end));
 
-          const daily = filterByOneProperty(
-            "RRULE:FREQ=DAILY",
-            recurringEvents
-          );
+    const url = `https://content.googleapis.com/calendar/v3/calendars/${config.url}/events`;
+    const query = `?key=${config.api_key}&singleEvents=true&orderBy=startTime&timeMin=${start}&timeMax=${end}`;
 
-          const recurringDaily = recurringByProperty(
-            removeRecurrenceProperty(daily),
-            handleDaily,
-            calendar,
-            config.dailyRecurrence,
-            cancelled
-          ).flat();
+    return fetch(url + query)
+      .then(res => res.json())
+      .then(res => {
+        const items = res.items;
 
-          const weekly = filterByOneProperty(
-            "RRULE:FREQ=WEEKLY",
-            recurringEvents
-          );
+        const events = items.map(e => {
+          // account for all day events and arbitrarily set time to 8am-5pm
+          const start = e.start.date
+            ? new Date(`${e.start.date}T08:00:00`)
+            : new Date(e.start.dateTime);
+          const end = e.end.date
+            ? new Date(`${e.start.date}T05:00:00`)
+            : new Date(e.end.dateTime);
 
-          const recurringWeekly = recurringByProperty(
-            removeRecurrenceProperty(weekly),
-            handleWeekly,
-            calendar,
-            config.weeklyRecurrence,
-            cancelled
-          ).flat();
-
-          const monthly = filterByOneProperty(
-            "RRULE:FREQ=MONTHLY",
-            recurringEvents
-          );
-
-          // dateOfMonth will have only one item in the array, so this will verify "RRULE:FREQ=MONTHLY"
-          const dateOfMonth = monthly.filter(item =>
-            filterIncludesString(item.r, "TH")
-          );
-
-          // however, dayOfMonth will have two items in the array
-          // the second item will be like "BYDAY=1FR"
-          const dayOfMonth = monthly.filter(
-            item => !filterIncludesString(item.r, "TH")
-          );
-
-          const recurringDateOfMonth = recurringByProperty(
-            removeRecurrenceProperty(dateOfMonth),
-            handleDateOfMonth,
-            calendar,
-            config.monthlyRecurrence,
-            cancelled
-          ).flat();
-
-          const recurringDayOfMonth = recurringByProperty(
-            removeRecurrenceProperty(dayOfMonth),
-            handleDayOfMonth,
-            calendar,
-            config.monthlyRecurrence
-          ).flat();
-
-          const allEvents = [].concat(
-            oneTimeEvents,
-            recurringDaily,
-            recurringWeekly,
-            recurringDateOfMonth,
-            recurringDayOfMonth
-          );
-
-          return allEvents.flat();
+          return {
+            title: e.summary,
+            start: start,
+            end: end,
+            description: e.description,
+            location: e.location,
+            glink: e.htmlLink,
+            meta: e,
+          };
         });
-    }).then(allEvents => [].concat.apply([], allEvents)),
+
+        return events;
+      });
+  },
 };

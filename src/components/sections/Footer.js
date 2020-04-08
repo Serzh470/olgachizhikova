@@ -6,11 +6,17 @@ import ExternalLink from "@common/ExternalLink";
 import { injectIntl } from "gatsby-plugin-intl";
 
 import InstagramIcon from "@static/icons/instagram.svg";
+import FacebookIcon from "@static/icons/facebook.svg";
 
 const SOCIAL = [
   {
     icon: InstagramIcon,
-    link: "http://instagram.com/_u/olyachizh.yoga/",
+    link: "http://instagram.com/_u/olga.bodyspace/",
+  },
+  {
+    icon: FacebookIcon,
+    link: "https://www.facebook.com/%D0%99%D0%BE%D0%B3%D0%B0-%D1%81-%D0%9E%D0%BB%D0%B5%D0%B9-%D0%A7%D0%B8%D0%B6-1050239261782200/",
+    alt: "Facebook"
   },
 ];
 
