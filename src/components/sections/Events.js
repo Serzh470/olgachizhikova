@@ -31,7 +31,7 @@ export default () => {
   const options = { year: "numeric", month: "long", day: "numeric" };
   const { edges: events } = data.allMarkdownRemark;
   const rendered_events = events
-    .filter(post => !post.node.frontmatter.hidden)
+    .filter((post) => !post.node.frontmatter.hidden)
     .map(({ node: post }) => {
       let date = new Date(post.frontmatter.date);
       return (

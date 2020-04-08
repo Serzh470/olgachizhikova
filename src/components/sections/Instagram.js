@@ -36,7 +36,7 @@ const Instagram = () => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <Section id="inspiration">
         <Container>
           <h1>
@@ -75,11 +75,11 @@ const Grid = styled.div`
   grid-template-rows: 1fr 1fr;
   grid-gap: 15px;
 
-  @media (max-width: ${props => props.theme.screen.md}) {
+  @media (max-width: ${(props) => props.theme.screen.md}) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: ${props => props.theme.screen.xs}) {
+  @media (max-width: ${(props) => props.theme.screen.xs}) {
     grid-template-columns: 1fr;
     padding: 10vw;
   }

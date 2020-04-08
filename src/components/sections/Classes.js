@@ -1,18 +1,11 @@
 import React from "react";
-import { startOfWeek, endOfWeek } from "date-fns";
 import { FormattedMessage } from "gatsby-plugin-intl";
 import { Section, Container } from "@components/global";
 import ClassesGrid from "@components/common/ClassesGrid";
 
 import googleAPI from "../../utils/googleapi";
+import weekPeriod from "../../utils/weekPeriod";
 
-/** Get first and last day of week */
-let getFirstLastDays = () => {
-  const curr = new Date();
-  const first = startOfWeek(curr, { weekStartsOn: 1 });
-  const last = endOfWeek(curr, { weekStartsOn: 1 });
-  return { first, last };
-};
 
 class Classes extends React.Component {
   state = {
@@ -20,7 +13,7 @@ class Classes extends React.Component {
   };
 
   componentDidMount() {
-    let { first, last } = getFirstLastDays();
+    const { first, last } = weekPeriod();
 
     const calendar_configuration = {
       api_key: process.env.GATSBY_GOOGLE_API_KEY,
