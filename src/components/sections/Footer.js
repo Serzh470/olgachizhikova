@@ -11,8 +11,7 @@ import FacebookIcon from "@static/icons/facebook.svg";
 const SOCIAL = [
   {
     icon: InstagramIcon,
-    link: "http://instagram.com/_u/olyachizh.yoga/",
-    alt: "Instagram"
+    link: "http://instagram.com/_u/olga.bodyspace/",
   },
   {
     icon: FacebookIcon,

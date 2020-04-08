@@ -1,107 +1,42 @@
-import { startOfWeek, endOfWeek } from "date-fns";
-import {
-  handleDaily,
-  handleDateOfMonth,
-  handleDayOfMonth,
-  handleWeekly,
-} from "./algorithms";
-import {
-  filterByOneProperty,
-  filterIncludesString,
-  oneTime,
-  recurring,
-  recurringByProperty,
-  removeCancelled,
-  removeRecurrenceProperty,
-} from "./functions";
-
-/** Get first and last day of week */
-let getFirstLastDays = () => {
-  const curr = new Date();
-  const first = startOfWeek(curr, { weekStartsOn: 1 });
-  const last = endOfWeek(curr, { weekStartsOn: 1 });
-  return { first, last };
-};
+import { formatRFC3339 } from "date-fns";
 
 export default {
-  /** Get events from calendar specified and created specified number of recurring events */
-  getAllCalendars: (config) => {
-    return fetch(
-      `https://content.googleapis.com/calendar/v3/calendars/${config.url}/events?key=${config.api_key}`
-    )
-      .then((res) => res.json())
-      .then((res) => {
+  /*
+   * Get events from all calendars specified and created specified number of recurring events
+   */
+  getAllCalendars: config => {
+    const start = encodeURIComponent(formatRFC3339(config.start));
+    const end = encodeURIComponent(formatRFC3339(config.end));
+
+    const url = `https://content.googleapis.com/calendar/v3/calendars/${config.url}/events`;
+    const query = `?key=${config.api_key}&singleEvents=true&orderBy=startTime&timeMin=${start}&timeMax=${end}`;
+
+    return fetch(url + query)
+      .then(res => res.json())
+      .then(res => {
         const items = res.items;
-        const { events, cancelled } = removeCancelled(items);
-        const oneTimeEvents = oneTime(events);
-        const recurringEvents = recurring(events);
 
-        const daily = filterByOneProperty("RRULE:FREQ=DAILY", recurringEvents);
-        const recurringDaily = recurringByProperty(
-          removeRecurrenceProperty(daily),
-          handleDaily,
-          config.dailyRecurrence,
-          cancelled
-        ).flat();
+        const events = items.map(e => {
+          // account for all day events and arbitrarily set time to 8am-5pm
+          const start = e.start.date
+            ? new Date(`${e.start.date}T08:00:00`)
+            : new Date(e.start.dateTime);
+          const end = e.end.date
+            ? new Date(`${e.start.date}T05:00:00`)
+            : new Date(e.end.dateTime);
 
-        const weekly = filterByOneProperty(
-          "RRULE:FREQ=WEEKLY",
-          recurringEvents
-        );
+          return {
+            title: e.summary,
+            start: start,
+            end: end,
+            description: e.description,
+            location: e.location,
+            glink: e.htmlLink,
+            meta: e,
+          };
+        });
 
-        const recurringWeekly = recurringByProperty(
-          removeRecurrenceProperty(weekly),
-          handleWeekly,
-          config.weeklyRecurrence,
-          cancelled
-        ).flat();
-
-        const monthly = filterByOneProperty(
-          "RRULE:FREQ=MONTHLY",
-          recurringEvents
-        );
-
-        // dateOfMonth will have only one item in the array, so this will verify "RRULE:FREQ=MONTHLY"
-        const dateOfMonth = monthly.filter((item) =>
-          filterIncludesString(item.r, "TH")
-        );
-
-        // however, dayOfMonth will have two items in the array
-        // the second item will be like "BYDAY=1FR"
-        const dayOfMonth = monthly.filter(
-          (item) => !filterIncludesString(item.r, "TH")
-        );
-
-        const recurringDateOfMonth = recurringByProperty(
-          removeRecurrenceProperty(dateOfMonth),
-          handleDateOfMonth,
-          config.monthlyRecurrence,
-          cancelled
-        ).flat();
-
-        const recurringDayOfMonth = recurringByProperty(
-          removeRecurrenceProperty(dayOfMonth),
-          handleDayOfMonth,
-          config.monthlyRecurrence,
-          cancelled
-        ).flat();
-
-        const allEvents = [].concat(
-          oneTimeEvents,
-          recurringDaily,
-          recurringWeekly,
-          recurringDateOfMonth,
-          recurringDayOfMonth
-        );
-
-        return allEvents.flat();
-      })
-      .then((events) => {
-        // filter only current week events
-        let { first, last } = getFirstLastDays();
-        return events
-          .filter((item) => item.start >= first && item.end <= last)
-          .sort((a, b) => a.start > b.start);
+        return events;
       });
   },
 };
