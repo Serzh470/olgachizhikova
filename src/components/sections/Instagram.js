@@ -13,22 +13,12 @@ const Instagram = () => (
         allInstagramContent(limit: 8) {
           edges {
             node {
-              link
+              media_url
               localImage {
                 childImageSharp {
                   fluid(maxHeight: 500, maxWidth: 500, quality: 50) {
                     ...GatsbyImageSharpFluid_withWebp_tracedSVG
                   }
-                }
-              }
-              images {
-                standard_resolution {
-                  width
-                  height
-                  url
-                }
-                low_resolution {
-                  url
                 }
               }
             }
@@ -47,7 +37,7 @@ const Instagram = () => (
               item.node.localImage ? (
                 <Photo key={i}>
                   <a
-                    href={item.node.link}
+                    href={item.node.media_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     tabIndex="0"

@@ -25,9 +25,7 @@ class Classes extends React.Component {
     googleAPI
       .getAllCalendars(calendar_configuration)
       .then(events => this.setState({ events }))
-      .catch(err => {
-        throw new Error(err);
-      });
+      .catch(err =>console.error(err));
   }
 
   render() {
